@@ -1,46 +1,22 @@
 import React, { useCallback, useState } from 'react';
-import { Button, Text, TextInput, View, StyleSheet } from 'react-native';
+import { Button, ScrollView, Text, TextInput, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { styles } from './App.styles';
 
-const styles = StyleSheet.create({
-  root: {
-    paddingBottom: 30,
-    paddingLeft: 30,
-    paddingRight: 30,
-  },
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#ccc',
-    marginLeft: -30,
-    marginRight: -30,
-    paddingTop: 40,
-    paddingBottom: 20,
-    paddingLeft: 30,
-    paddingRight: 30,
-  },
-  input: {
-    padding: 10,
-    fontSize: 20,
-    borderColor: 'black',
-    borderWidth: 1,
-    flexGrow: 1,
-    backgroundColor: '#fff',
-  },
-  list: {
-    marginTop: 30,
-  },
-  listItem: {
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontSize: 20,
-  },
-});
+interface ListItem {
+  id: number;
+  text: string;
+}
+
+let id = 0;
+
+interface HandleRemove {
+  (item: ListItem): void;
+}
 
 export default function App() {
   const [value, setValue] = useState('');
-  const [list, setList] = useState<string[]>([]);
+  const [list, setList] = useState<ListItem[]>([]);
 
   const handleChangeText = useCallback((text) => {
     setValue(text);
@@ -51,16 +27,12 @@ export default function App() {
       return;
     }
 
-    setList((v) => [...v, value]);
+    setList((v) => [...v, { id: id++, text: value }]);
     setValue('');
   }, [value]);
 
-  const handleRemove = useCallback((index) => {
-    setList((v) => {
-      v.splice(index, 1);
-
-      return [...v];
-    });
+  const handleRemove = useCallback<HandleRemove>((item) => {
+    setList((v) => v.filter((i) => i !== item));
   }, []);
 
   return (
@@ -78,17 +50,13 @@ export default function App() {
         <Button title='Add' disabled={!value} onPress={handleSubmit} />
       </View>
 
-      <View style={styles.list}>
-        {list.map((item, index) => (
-          <Text
-            key={index}
-            style={styles.listItem}
-            onPress={() => handleRemove(index)}
-          >
-            {item}
-          </Text>
+      <ScrollView>
+        {list.map((item) => (
+          <View key={item.id} style={styles.listItem}>
+            <Text onPress={() => handleRemove(item)}>{item.text}</Text>
+          </View>
         ))}
-      </View>
+      </ScrollView>
 
       <StatusBar style='auto' />
     </View>
