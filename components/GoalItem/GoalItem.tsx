@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './GoadItem.styles';
 
 interface Props {
@@ -13,7 +13,9 @@ export const GoalItem: React.FunctionComponent<Props> = ({
   title,
   onRemove,
 }) => (
-  <View style={styles.root}>
-    <Text onPress={() => onRemove(id)}>{title}</Text>
-  </View>
+  <TouchableOpacity onPress={() => onRemove(id)}>
+    <View style={styles.root}>
+      <Text>{title}</Text>
+    </View>
+  </TouchableOpacity>
 );
