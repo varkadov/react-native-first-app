@@ -8,6 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { GoalItem } from './components/GoalItem/GoalItem';
 import { styles } from './App.styles';
 
 interface ListItem {
@@ -18,7 +19,7 @@ interface ListItem {
 let id = 0;
 
 interface HandleRemove {
-  (item: ListItem): void;
+  (id: string): void;
 }
 
 export default function App() {
@@ -38,8 +39,8 @@ export default function App() {
     setValue('');
   }, [value]);
 
-  const handleRemove = useCallback<HandleRemove>((item) => {
-    setList((v) => v.filter((i) => i !== item));
+  const handleRemove = useCallback<HandleRemove>((id) => {
+    setList((v) => v.filter((i) => i.id !== id));
   }, []);
 
   return (
@@ -60,9 +61,7 @@ export default function App() {
       <FlatList
         data={list}
         renderItem={({ item }) => (
-          <View style={styles.listItem}>
-            <Text onPress={() => handleRemove(item)}>{item.text}</Text>
-          </View>
+          <GoalItem id={item.id} title={item.text} onRemove={handleRemove} />
         )}
       />
 
