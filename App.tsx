@@ -1,10 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { Button, ScrollView, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+  FlatList,
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from './App.styles';
 
 interface ListItem {
-  id: number;
+  id: string;
   text: string;
 }
 
@@ -27,7 +34,7 @@ export default function App() {
       return;
     }
 
-    setList((v) => [...v, { id: id++, text: value }]);
+    setList((v) => [...v, { id: String(id++), text: value }]);
     setValue('');
   }, [value]);
 
@@ -50,13 +57,14 @@ export default function App() {
         <Button title='Add' disabled={!value} onPress={handleSubmit} />
       </View>
 
-      <ScrollView>
-        {list.map((item) => (
-          <View key={item.id} style={styles.listItem}>
+      <FlatList
+        data={list}
+        renderItem={({ item }) => (
+          <View style={styles.listItem}>
             <Text onPress={() => handleRemove(item)}>{item.text}</Text>
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
 
       <StatusBar style='auto' />
     </View>
