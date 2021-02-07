@@ -1,12 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import { Button, TextInput, View } from 'react-native';
+import { Button, Modal, TextInput, View } from 'react-native';
 import { styles } from './GoalInput.styles';
 
 interface Props {
+  visible: boolean;
   onAddItem: (text: string) => void;
 }
 
-export const GoalInput: React.FunctionComponent<Props> = ({ onAddItem }) => {
+export const GoalInput: React.FunctionComponent<Props> = ({
+  visible,
+  onAddItem,
+}) => {
   const [value, setValue] = useState<string>('');
 
   const handleChangeText = useCallback((text) => {
@@ -19,18 +23,20 @@ export const GoalInput: React.FunctionComponent<Props> = ({ onAddItem }) => {
   }, [value, onAddItem]);
 
   return (
-    <View style={styles.root}>
-      <TextInput
-        style={styles.input}
-        value={value}
-        onChangeText={handleChangeText}
-        placeholder='Course Goal'
-        clearButtonMode='always'
-        blurOnSubmit={false}
-        onSubmitEditing={handleSubmit}
-      />
+    <Modal visible={visible} animationType='slide'>
+      <View style={styles.root}>
+        <TextInput
+          style={styles.input}
+          value={value}
+          onChangeText={handleChangeText}
+          placeholder='Course Goal'
+          clearButtonMode='always'
+          blurOnSubmit={false}
+          onSubmitEditing={handleSubmit}
+        />
 
-      <Button title='Add' disabled={!value} onPress={handleSubmit} />
-    </View>
+        <Button title='Add' disabled={!value} onPress={handleSubmit} />
+      </View>
+    </Modal>
   );
 };
