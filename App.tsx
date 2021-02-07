@@ -37,11 +37,19 @@ export default function App() {
     setIsModalVisible(true);
   }, []);
 
+  const handleModalClose = useCallback(() => {
+    setIsModalVisible(false);
+  }, []);
+
   return (
     <View style={styles.root}>
       <Button title='Add New Goal' onPress={addNewGoalHandler} />
 
-      <GoalInput visible={isModalVisible} onAddItem={handleAddItem} />
+      <GoalInput
+        visible={isModalVisible}
+        onAddItem={handleAddItem}
+        onClose={handleModalClose}
+      />
 
       <View style={styles.listItem}>
         <FlatList

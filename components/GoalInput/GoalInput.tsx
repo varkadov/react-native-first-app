@@ -5,11 +5,13 @@ import { styles } from './GoalInput.styles';
 interface Props {
   visible: boolean;
   onAddItem: (text: string) => void;
+  onClose: () => void;
 }
 
 export const GoalInput: React.FunctionComponent<Props> = ({
   visible,
   onAddItem,
+  onClose,
 }) => {
   const [value, setValue] = useState<string>('');
 
@@ -22,20 +24,37 @@ export const GoalInput: React.FunctionComponent<Props> = ({
     setValue('');
   }, [value, onAddItem]);
 
+  const handleCancelButtonPress = useCallback(() => {
+    setValue('');
+    onClose();
+  }, [onClose]);
+
   return (
     <Modal visible={visible} animationType='slide'>
       <View style={styles.root}>
         <TextInput
           style={styles.input}
           value={value}
-          onChangeText={handleChangeText}
           placeholder='Course Goal'
           clearButtonMode='always'
           blurOnSubmit={false}
+          autoFocus
+          onChangeText={handleChangeText}
           onSubmitEditing={handleSubmit}
         />
 
-        <Button title='Add' disabled={!value} onPress={handleSubmit} />
+        <View style={styles.controls}>
+          <View style={styles.button}>
+            <Button
+              title='Cancel'
+              color='red'
+              onPress={handleCancelButtonPress}
+            />
+          </View>
+          <View style={styles.button}>
+            <Button title='Add' onPress={handleSubmit} />
+          </View>
+        </View>
       </View>
     </Modal>
   );
