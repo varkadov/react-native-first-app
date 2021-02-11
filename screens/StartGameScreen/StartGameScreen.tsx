@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { colors } from '../../constants/colors';
 import { Card } from '../../components/Card/Card';
 
 const styles = StyleSheet.create({
@@ -15,13 +16,16 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: 300,
     maxWidth: '80%',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   buttonsContainer: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    paddingHorizontal: 15
+  },
+  button: {
+    width: 100
   }
 });
 
@@ -35,10 +39,14 @@ export const StartGameScreen: React.FunctionComponent = () => {
         <TextInput placeholder='Enter Number' />
 
         <View style={styles.buttonsContainer}>
-          <Button title='Reset' onPress={() => {
-          }} />
-          <Button title='Confirm' onPress={() => {
-          }} />
+          <View style={styles.button}>
+            <Button title='Reset' color={colors.primary} onPress={() => {
+            }} />
+          </View>
+          <View style={styles.button}>
+            <Button title='Confirm' color={colors.accent} onPress={() => {
+            }} />
+          </View>
         </View>
       </Card>
     </View>
