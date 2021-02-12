@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  style: ViewStyle;
+  style?: ViewStyle;
 }
 
 
