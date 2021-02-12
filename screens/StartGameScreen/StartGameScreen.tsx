@@ -43,12 +43,28 @@ const styles = StyleSheet.create({
 
 export const StartGameScreen: React.FunctionComponent = () => {
   const [value, setValue] = useState<string>('');
+  const [chosenNumber, setChosenNumber] = useState<number | null>(null);
 
   const handleInputChange = useCallback((v: string) => {
     const numberString = v.replace(/[^0-9]/g, '');
 
     setValue(numberString);
   }, []);
+
+  const handleReset = useCallback(() => {
+    setValue('');
+  }, []);
+
+  const handleConfirm = useCallback(() => {
+    const chosenNumber = Number.parseInt(value);
+
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      return;
+    }
+
+    setValue('');
+    setChosenNumber(chosenNumber);
+  }, [value]);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -71,17 +87,23 @@ export const StartGameScreen: React.FunctionComponent = () => {
 
           <View style={styles.buttonsContainer}>
             <View style={styles.button}>
-              <Button title='Reset' color={colors.primary} onPress={() => {}} />
+              <Button
+                title='Reset'
+                color={colors.primary}
+                onPress={handleReset}
+              />
             </View>
             <View style={styles.button}>
               <Button
                 title='Confirm'
                 color={colors.accent}
-                onPress={() => {}}
+                onPress={handleConfirm}
               />
             </View>
           </View>
         </Card>
+
+        {chosenNumber && <Text>Chosen Number: {chosenNumber}</Text>}
       </View>
     </TouchableWithoutFeedback>
   );
