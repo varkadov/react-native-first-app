@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Button, StyleSheet, Text, View, Alert } from 'react-native';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Card } from '../../components/Card/Card';
 
@@ -41,11 +41,59 @@ const styles = StyleSheet.create({
 
 interface Props {
   userGuess: number;
+  onGameOver: (rounds: number) => void;
 }
 
-export const GameScreen: React.FunctionComponent<Props> = ({ userGuess }) => {
+interface HandleNext {
+  (direction: 'lower' | 'greater'): void;
+}
+
+export const GameScreen: React.FunctionComponent<Props> = ({
+  userGuess,
+  onGameOver,
+}) => {
+  const currentLow = useRef<number>(1);
+  const currentHigh = useRef<number>(100);
+  const rounds = useRef<number>(0);
   const [currentGuess, setCurrentGuess] = useState<number>(() =>
-    generateRandomBetween(1, 100, userGuess)
+    generateRandomBetween(currentLow.current, currentHigh.current, userGuess)
+  );
+
+  useEffect(() => {
+    if (userGuess === currentGuess) {
+      onGameOver(rounds.current);
+    }
+  }, [userGuess, currentGuess, onGameOver]);
+
+  const handleNext = useCallback<HandleNext>(
+    (direction) => {
+      if (
+        (direction === 'lower' && currentGuess < userGuess) ||
+        (direction === 'greater' && currentGuess > userGuess)
+      ) {
+        Alert.alert('Do not lie!', 'You know that this is wrong...', [
+          { text: 'Sorry!', style: 'cancel' },
+        ]);
+
+        return;
+      }
+
+      rounds.current++;
+
+      if (direction === 'lower') {
+        currentHigh.current = currentGuess;
+      } else {
+        currentLow.current = currentGuess;
+      }
+      setCurrentGuess(
+        generateRandomBetween(
+          currentLow.current,
+          currentHigh.current,
+          currentGuess
+        )
+      );
+    },
+    [currentGuess, userGuess]
   );
 
   return (
@@ -56,10 +104,10 @@ export const GameScreen: React.FunctionComponent<Props> = ({ userGuess }) => {
 
       <Card style={styles.buttonsContainer}>
         <View style={styles.button}>
-          <Button title='Lower' onPress={() => {}} />
+          <Button title='Lower' onPress={() => handleNext('lower')} />
         </View>
         <View style={styles.button}>
-          <Button title='Greater' onPress={() => {}} />
+          <Button title='Greater' onPress={() => handleNext('greater')} />
         </View>
       </Card>
     </View>

@@ -101,39 +101,41 @@ export const StartGameScreen: React.FunctionComponent<Props> = ({
       <View style={styles.root}>
         <Text style={styles.title}>Start a New Game!</Text>
 
-        <Card style={styles.inputContainer}>
-          <Text>Select a Number</Text>
+        {!chosenNumber ? (
+          <Card style={styles.inputContainer}>
+            <Text>Select a Number</Text>
 
-          <Input
-            value={value}
-            style={styles.input}
-            blurOnSubmit
-            autoCapitalize='none'
-            autoCorrect={false}
-            maxLength={2}
-            keyboardType='number-pad'
-            onChangeText={handleInputChange}
-          />
+            <Input
+              value={value}
+              style={styles.input}
+              blurOnSubmit
+              autoFocus
+              autoCapitalize='none'
+              autoCorrect={false}
+              maxLength={2}
+              keyboardType='number-pad'
+              onChangeText={handleInputChange}
+              onSubmitEditing={handleConfirm}
+            />
 
-          <View style={styles.buttonsContainer}>
-            <View style={styles.button}>
-              <Button
-                title='Reset'
-                color={colors.primary}
-                onPress={handleReset}
-              />
+            <View style={styles.buttonsContainer}>
+              <View style={styles.button}>
+                <Button
+                  title='Reset'
+                  color={colors.primary}
+                  onPress={handleReset}
+                />
+              </View>
+              <View style={styles.button}>
+                <Button
+                  title='Confirm'
+                  color={colors.accent}
+                  onPress={handleConfirm}
+                />
+              </View>
             </View>
-            <View style={styles.button}>
-              <Button
-                title='Confirm'
-                color={colors.accent}
-                onPress={handleConfirm}
-              />
-            </View>
-          </View>
-        </Card>
-
-        {chosenNumber && (
+          </Card>
+        ) : (
           <Card style={styles.numberContainer}>
             <Text>You selected</Text>
 
