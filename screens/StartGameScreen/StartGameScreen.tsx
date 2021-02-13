@@ -11,6 +11,7 @@ import {
 import { colors } from '../../constants/colors';
 import { Card } from '../../components/Card/Card';
 import { Input } from '../../components/Input/Input';
+import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 
 const styles = StyleSheet.create({
   root: {
@@ -116,7 +117,7 @@ export const StartGameScreen: React.FunctionComponent = () => {
           </View>
         </Card>
 
-        {chosenNumber && <Text>Chosen Number: {chosenNumber}</Text>}
+        {chosenNumber && <NumberContainer chosenNumber={chosenNumber} />}
       </View>
     </TouchableWithoutFeedback>
   );
