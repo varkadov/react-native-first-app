@@ -41,9 +41,19 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
   },
+  numberContainer: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
 });
 
-export const StartGameScreen: React.FunctionComponent = () => {
+interface Props {
+  onStartGame: (n: number) => void;
+}
+
+export const StartGameScreen: React.FunctionComponent<Props> = ({
+  onStartGame,
+}) => {
   const [value, setValue] = useState<string>('');
   const [chosenNumber, setChosenNumber] = useState<number | null>(null);
 
@@ -79,6 +89,12 @@ export const StartGameScreen: React.FunctionComponent = () => {
     setValue('');
     setChosenNumber(chosenNumber);
   }, [value]);
+
+  const handleStartGame = useCallback(() => {
+    if (chosenNumber) {
+      onStartGame(chosenNumber);
+    }
+  }, [onStartGame, chosenNumber]);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -117,7 +133,15 @@ export const StartGameScreen: React.FunctionComponent = () => {
           </View>
         </Card>
 
-        {chosenNumber && <NumberContainer chosenNumber={chosenNumber} />}
+        {chosenNumber && (
+          <Card style={styles.numberContainer}>
+            <Text>You selected</Text>
+
+            <NumberContainer chosenNumber={chosenNumber} />
+
+            <Button title='Start game' onPress={handleStartGame} />
+          </Card>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
