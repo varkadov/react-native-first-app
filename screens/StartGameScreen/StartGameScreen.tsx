@@ -1,17 +1,18 @@
 import React, { useCallback, useState } from 'react';
 import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  TouchableWithoutFeedback,
-  Keyboard,
   Alert,
+  Button,
+  Keyboard,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
 import { Card } from '../../components/Card/Card';
 import { Input } from '../../components/Input/Input';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
+import { Title } from '../../components/Title/Title';
+import { BodyText } from '../../components/BodyText/BodyText';
 
 const styles = StyleSheet.create({
   root: {
@@ -20,9 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 20,
-    fontFamily: 'open-sans-bold',
-    marginVertical: 10,
+    marginVertical: 20,
   },
   inputContainer: {
     width: 300,
@@ -43,7 +42,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   numberContainer: {
-    marginTop: 30,
     alignItems: 'center',
   },
 });
@@ -100,11 +98,11 @@ export const StartGameScreen: React.FunctionComponent<Props> = ({
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.root}>
-        <Text style={styles.title}>Start a New Game!</Text>
+        <Title style={styles.title}>Start a New Game</Title>
 
         {!chosenNumber ? (
           <Card style={styles.inputContainer}>
-            <Text>Select a Number</Text>
+            <BodyText>Select a Number</BodyText>
 
             <Input
               value={value}
@@ -138,7 +136,7 @@ export const StartGameScreen: React.FunctionComponent<Props> = ({
           </Card>
         ) : (
           <Card style={styles.numberContainer}>
-            <Text>You selected</Text>
+            <BodyText>You selected</BodyText>
 
             <NumberContainer chosenNumber={chosenNumber} />
 

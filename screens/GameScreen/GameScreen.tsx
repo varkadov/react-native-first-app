@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, StyleSheet, Text, View, Alert } from 'react-native';
+import { Alert, Button, StyleSheet, View } from 'react-native';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Card } from '../../components/Card/Card';
+import { Title } from '../../components/Title/Title';
 
 const generateRandomBetween = (
   min: number,
@@ -98,7 +99,7 @@ export const GameScreen: React.FunctionComponent<Props> = ({
 
   return (
     <View style={styles.root}>
-      <Text>Opponent's Guess</Text>
+      <Title>Opponent's Guess</Title>
 
       <NumberContainer chosenNumber={currentGuess} />
 
