@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Image, StyleSheet, View } from 'react-native';
+import { Text, Button, Image, StyleSheet, View } from 'react-native';
 import { BodyText } from '../../components/BodyText/BodyText';
 import { Title } from '../../components/Title/Title';
+import { colors } from '../../constants/colors';
 
 const styles = StyleSheet.create({
   root: {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    marginTop: 5,
+    marginTop: 40,
   },
   button: {
     marginTop: 20,
@@ -29,6 +30,9 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  highlight: {
+    color: colors.primary,
   },
 });
 
@@ -60,7 +64,8 @@ export const GameOverScreen: React.FunctionComponent<Props> = ({
       </View>
 
       <BodyText style={styles.text}>
-        Number {userNumber} was guessed on {rounds} attempts
+        Number <Text style={styles.highlight}>{userNumber}</Text> was guessed on{' '}
+        <Text style={styles.highlight}>{rounds}</Text> attempts
       </BodyText>
 
       <View style={styles.button}>
