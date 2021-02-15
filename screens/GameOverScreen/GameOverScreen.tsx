@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Button, Image, StyleSheet, View } from 'react-native';
 import { BodyText } from '../../components/BodyText/BodyText';
 import { Title } from '../../components/Title/Title';
+import { MainButton } from '../../components/MainButton/MainButton';
 import { colors } from '../../constants/colors';
 
 const styles = StyleSheet.create({
@@ -69,7 +70,7 @@ export const GameOverScreen: React.FunctionComponent<Props> = ({
       </BodyText>
 
       <View style={styles.button}>
-        <Button title='Restart' onPress={onRestart} />
+        <MainButton onPress={onRestart}>Restart</MainButton>
       </View>
     </View>
   );

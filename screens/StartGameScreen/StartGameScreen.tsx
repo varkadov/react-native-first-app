@@ -13,6 +13,7 @@ import { Input } from '../../components/Input/Input';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Title } from '../../components/Title/Title';
 import { BodyText } from '../../components/BodyText/BodyText';
+import { MainButton } from '../../components/MainButton/MainButton';
 
 const styles = StyleSheet.create({
   root: {
@@ -140,7 +141,7 @@ export const StartGameScreen: React.FunctionComponent<Props> = ({
 
             <NumberContainer chosenNumber={chosenNumber} />
 
-            <Button title='Start game' onPress={handleStartGame} />
+            <MainButton onPress={handleStartGame}>Start Game</MainButton>
           </Card>
         )}
       </View>

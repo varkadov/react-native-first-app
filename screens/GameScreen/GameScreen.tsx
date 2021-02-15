@@ -3,6 +3,7 @@ import { Alert, Button, StyleSheet, View } from 'react-native';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Card } from '../../components/Card/Card';
 import { Title } from '../../components/Title/Title';
+import { MainButton } from '../../components/MainButton/MainButton';
 
 const generateRandomBetween = (
   min: number,
@@ -32,10 +33,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
-    maxWidth: '80%',
+    maxWidth: '90%',
   },
   button: {
-    width: 100,
+    width: 120,
     marginHorizontal: 5,
   },
 });
@@ -105,10 +106,10 @@ export const GameScreen: React.FunctionComponent<Props> = ({
 
       <Card style={styles.buttonsContainer}>
         <View style={styles.button}>
-          <Button title='Lower' onPress={() => handleNext('lower')} />
+          <MainButton onPress={() => handleNext('lower')}>Lower</MainButton>
         </View>
         <View style={styles.button}>
-          <Button title='Greater' onPress={() => handleNext('greater')} />
+          <MainButton onPress={() => handleNext('greater')}>Greater</MainButton>
         </View>
       </Card>
     </View>
