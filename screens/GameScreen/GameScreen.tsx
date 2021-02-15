@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Button, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Card } from '../../components/Card/Card';
 import { Title } from '../../components/Title/Title';
 import { MainButton } from '../../components/MainButton/MainButton';
+import { Ionicons } from '@expo/vector-icons';
 
 const generateRandomBetween = (
   min: number,
@@ -106,10 +107,14 @@ export const GameScreen: React.FunctionComponent<Props> = ({
 
       <Card style={styles.buttonsContainer}>
         <View style={styles.button}>
-          <MainButton onPress={() => handleNext('lower')}>Lower</MainButton>
+          <MainButton onPress={() => handleNext('lower')}>
+            <Ionicons name='md-remove' size={24} color='white' />
+          </MainButton>
         </View>
         <View style={styles.button}>
-          <MainButton onPress={() => handleNext('greater')}>Greater</MainButton>
+          <MainButton onPress={() => handleNext('greater')}>
+            <Ionicons name='md-add' size={24} color='white' />
+          </MainButton>
         </View>
       </Card>
     </View>
