@@ -41,9 +41,14 @@ const styles = StyleSheet.create({
     width: 120,
     marginHorizontal: 5,
   },
-  list: {
+  listContainer: {
     width: '80%',
     flex: 1,
+  },
+  list: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
 });
 
@@ -123,8 +128,8 @@ export const GameScreen: React.FunctionComponent<Props> = ({
         </View>
       </Card>
 
-      <View style={styles.list}>
-        <ScrollView>
+      <View style={styles.listContainer}>
+        <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((item, index, arr) => (
             <ListItem key={item} numberOfRound={arr.length - index}>
               {item}

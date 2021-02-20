@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     justifyContent: 'center',
     flexDirection: 'row',
+    width: '60%',
   },
 });
 
