@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Card } from '../../components/Card/Card';
 import { Title } from '../../components/Title/Title';
 import { MainButton } from '../../components/MainButton/MainButton';
-import { Ionicons } from '@expo/vector-icons';
+import { ListItem } from './components/ListItem/ListItem';
 
 const generateRandomBetween = (
   min: number,
@@ -40,6 +41,10 @@ const styles = StyleSheet.create({
     width: 120,
     marginHorizontal: 5,
   },
+  list: {
+    width: '80%',
+    flex: 1,
+  },
 });
 
 interface Props {
@@ -57,14 +62,14 @@ export const GameScreen: React.FunctionComponent<Props> = ({
 }) => {
   const currentLow = useRef<number>(1);
   const currentHigh = useRef<number>(100);
-  const rounds = useRef<number>(0);
   const [currentGuess, setCurrentGuess] = useState<number>(() =>
     generateRandomBetween(currentLow.current, currentHigh.current, userGuess)
   );
+  const [pastGuesses, setPastGuesses] = useState<number[]>([currentGuess]);
 
   useEffect(() => {
     if (userGuess === currentGuess) {
-      onGameOver(rounds.current);
+      onGameOver(pastGuesses.length);
     }
   }, [userGuess, currentGuess, onGameOver]);
 
@@ -81,20 +86,20 @@ export const GameScreen: React.FunctionComponent<Props> = ({
         return;
       }
 
-      rounds.current++;
-
       if (direction === 'lower') {
         currentHigh.current = currentGuess;
       } else {
-        currentLow.current = currentGuess;
+        currentLow.current = currentGuess + 1;
       }
-      setCurrentGuess(
-        generateRandomBetween(
-          currentLow.current,
-          currentHigh.current,
-          currentGuess
-        )
+
+      const newGuess = generateRandomBetween(
+        currentLow.current,
+        currentHigh.current,
+        currentGuess
       );
+
+      setCurrentGuess(newGuess);
+      setPastGuesses((v) => [newGuess, ...v]);
     },
     [currentGuess, userGuess]
   );
@@ -117,6 +122,16 @@ export const GameScreen: React.FunctionComponent<Props> = ({
           </MainButton>
         </View>
       </Card>
+
+      <View style={styles.list}>
+        <ScrollView>
+          {pastGuesses.map((item, index, arr) => (
+            <ListItem key={item} numberOfRound={arr.length - index}>
+              {item}
+            </ListItem>
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
 };
