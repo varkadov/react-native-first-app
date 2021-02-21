@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import {
   Alert,
   Button,
+  Dimensions,
   Keyboard,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   button: {
-    width: 100,
+    width: Dimensions.get('window').width / 4,
   },
   input: {
     width: '100%',
