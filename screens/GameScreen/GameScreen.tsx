@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, View, Text } from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Card } from '../../components/Card/Card';
@@ -42,8 +49,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   listContainer: {
-    width: '80%',
+    width: '100%',
     flex: 1,
+    alignItems: 'center',
   },
   list: {
     flexGrow: 1,
@@ -129,13 +137,16 @@ export const GameScreen: React.FunctionComponent<Props> = ({
       </Card>
 
       <View style={styles.listContainer}>
-        <ScrollView contentContainerStyle={styles.list}>
-          {pastGuesses.map((item, index, arr) => (
-            <ListItem key={item} numberOfRound={arr.length - index}>
-              {item}
+        <FlatList
+          data={pastGuesses}
+          keyExtractor={(i) => String(i)}
+          renderItem={(i) => (
+            <ListItem numberOfRound={pastGuesses.length - i.index}>
+              {i.item}
             </ListItem>
-          ))}
-        </ScrollView>
+          )}
+          contentContainerStyle={styles.list}
+        />
       </View>
     </View>
   );
