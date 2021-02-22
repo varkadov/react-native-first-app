@@ -1,15 +1,26 @@
 import React from 'react';
-import { Text, Button, Image, StyleSheet, View } from 'react-native';
+import {
+  Text,
+  Button,
+  Image,
+  StyleSheet,
+  View,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import { BodyText } from '../../components/BodyText/BodyText';
 import { Title } from '../../components/Title/Title';
 import { MainButton } from '../../components/MainButton/MainButton';
 import { colors } from '../../constants/colors';
+
+const imageWidth = Dimensions.get('window').width - 60;
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 40,
   },
   title: {
     marginBottom: 20,
@@ -21,9 +32,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   imageContainer: {
-    width: 300,
-    height: 300,
-    borderRadius: 150,
+    width: imageWidth,
+    height: imageWidth,
+    borderRadius: imageWidth / 2,
     borderWidth: 3,
     borderColor: 'black',
     overflow: 'hidden',
@@ -49,29 +60,31 @@ export const GameOverScreen: React.FunctionComponent<Props> = ({
   onRestart,
 }) => {
   return (
-    <View style={styles.root}>
-      <Title style={styles.title}>The Game Over is Over</Title>
+    <ScrollView>
+      <View style={styles.root}>
+        <Title style={styles.title}>The Game Over is Over</Title>
 
-      <View style={styles.imageContainer}>
-        <Image
-          // source={{
-          //   uri:
-          //     'https://upload.wikimedia.org/wikipedia/commons/8/88/Summit_of_the_Matterhorn.jpg',
-          // }}
-          source={require('../../assets/success.png')}
-          resizeMode='cover'
-          style={styles.image}
-        />
+        <View style={styles.imageContainer}>
+          <Image
+            // source={{
+            //   uri:
+            //     'https://upload.wikimedia.org/wikipedia/commons/8/88/Summit_of_the_Matterhorn.jpg',
+            // }}
+            source={require('../../assets/success.png')}
+            resizeMode='cover'
+            style={styles.image}
+          />
+        </View>
+
+        <BodyText style={styles.text}>
+          Number <Text style={styles.highlight}>{userNumber}</Text> was guessed
+          on <Text style={styles.highlight}>{rounds}</Text> attempts
+        </BodyText>
+
+        <View style={styles.button}>
+          <MainButton onPress={onRestart}>Restart</MainButton>
+        </View>
       </View>
-
-      <BodyText style={styles.text}>
-        Number <Text style={styles.highlight}>{userNumber}</Text> was guessed on{' '}
-        <Text style={styles.highlight}>{rounds}</Text> attempts
-      </BodyText>
-
-      <View style={styles.button}>
-        <MainButton onPress={onRestart}>Restart</MainButton>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
