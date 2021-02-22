@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, FlatList, StyleSheet, View, Dimensions } from 'react-native';
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NumberContainer } from '../../components/NumberContainer/NumberContainer';
 import { Card } from '../../components/Card/Card';
@@ -111,36 +118,38 @@ export const GameScreen: React.FunctionComponent<Props> = ({
   );
 
   return (
-    <View style={styles.root}>
-      <Title>Opponent's Guess</Title>
+    <ScrollView>
+      <View style={styles.root}>
+        <Title>Opponent's Guess</Title>
 
-      <NumberContainer chosenNumber={currentGuess} />
+        <NumberContainer chosenNumber={currentGuess} />
 
-      <Card style={styles.buttonsContainer}>
-        <View style={styles.button}>
-          <MainButton onPress={() => handleNext('lower')}>
-            <Ionicons name='md-remove' size={24} color='white' />
-          </MainButton>
+        <Card style={styles.buttonsContainer}>
+          <View style={styles.button}>
+            <MainButton onPress={() => handleNext('lower')}>
+              <Ionicons name='md-remove' size={24} color='white' />
+            </MainButton>
+          </View>
+          <View style={styles.button}>
+            <MainButton onPress={() => handleNext('greater')}>
+              <Ionicons name='md-add' size={24} color='white' />
+            </MainButton>
+          </View>
+        </Card>
+
+        <View style={styles.listContainer}>
+          <FlatList
+            data={pastGuesses}
+            keyExtractor={(i) => String(i)}
+            renderItem={(i) => (
+              <ListItem numberOfRound={pastGuesses.length - i.index}>
+                {i.item}
+              </ListItem>
+            )}
+            contentContainerStyle={styles.list}
+          />
         </View>
-        <View style={styles.button}>
-          <MainButton onPress={() => handleNext('greater')}>
-            <Ionicons name='md-add' size={24} color='white' />
-          </MainButton>
-        </View>
-      </Card>
-
-      <View style={styles.listContainer}>
-        <FlatList
-          data={pastGuesses}
-          keyExtractor={(i) => String(i)}
-          renderItem={(i) => (
-            <ListItem numberOfRound={pastGuesses.length - i.index}>
-              {i.item}
-            </ListItem>
-          )}
-          contentContainerStyle={styles.list}
-        />
       </View>
-    </View>
+    </ScrollView>
   );
 };

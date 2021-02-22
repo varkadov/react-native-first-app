@@ -4,9 +4,11 @@ import {
   Button,
   Dimensions,
   Keyboard,
+  ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { colors } from '../../constants/colors';
 import { Card } from '../../components/Card/Card';
@@ -99,54 +101,58 @@ export const StartGameScreen: React.FunctionComponent<Props> = ({
   }, [onStartGame, chosenNumber]);
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.root}>
-        <Title style={styles.title}>Start a New Game</Title>
+    <ScrollView>
+      <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={30}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.root}>
+            <Title style={styles.title}>Start a New Game</Title>
 
-        {!chosenNumber ? (
-          <Card style={styles.inputContainer}>
-            <BodyText>Select a Number</BodyText>
+            {!chosenNumber ? (
+              <Card style={styles.inputContainer}>
+                <BodyText>Select a Number</BodyText>
 
-            <Input
-              value={value}
-              style={styles.input}
-              blurOnSubmit
-              autoFocus
-              autoCapitalize='none'
-              autoCorrect={false}
-              maxLength={2}
-              keyboardType='number-pad'
-              onChangeText={handleInputChange}
-              onSubmitEditing={handleConfirm}
-            />
-
-            <View style={styles.buttonsContainer}>
-              <View style={styles.button}>
-                <Button
-                  title='Reset'
-                  color={colors.primary}
-                  onPress={handleReset}
+                <Input
+                  value={value}
+                  style={styles.input}
+                  blurOnSubmit
+                  autoFocus
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  maxLength={2}
+                  keyboardType='number-pad'
+                  onChangeText={handleInputChange}
+                  onSubmitEditing={handleConfirm}
                 />
-              </View>
-              <View style={styles.button}>
-                <Button
-                  title='Confirm'
-                  color={colors.accent}
-                  onPress={handleConfirm}
-                />
-              </View>
-            </View>
-          </Card>
-        ) : (
-          <Card style={styles.numberContainer}>
-            <BodyText>You selected</BodyText>
 
-            <NumberContainer chosenNumber={chosenNumber} />
+                <View style={styles.buttonsContainer}>
+                  <View style={styles.button}>
+                    <Button
+                      title='Reset'
+                      color={colors.primary}
+                      onPress={handleReset}
+                    />
+                  </View>
+                  <View style={styles.button}>
+                    <Button
+                      title='Confirm'
+                      color={colors.accent}
+                      onPress={handleConfirm}
+                    />
+                  </View>
+                </View>
+              </Card>
+            ) : (
+              <Card style={styles.numberContainer}>
+                <BodyText>You selected</BodyText>
 
-            <MainButton onPress={handleStartGame}>Start Game</MainButton>
-          </Card>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+                <NumberContainer chosenNumber={chosenNumber} />
+
+                <MainButton onPress={handleStartGame}>Start Game</MainButton>
+              </Card>
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };

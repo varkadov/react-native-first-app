@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  Text,
-  Button,
-  Image,
-  StyleSheet,
-  View,
   Dimensions,
+  Image,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 import { BodyText } from '../../components/BodyText/BodyText';
 import { Title } from '../../components/Title/Title';
