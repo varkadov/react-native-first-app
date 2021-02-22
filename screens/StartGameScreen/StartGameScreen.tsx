@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   Button,
@@ -39,9 +39,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
   },
-  button: {
-    width: Dimensions.get('window').width / 4,
-  },
   input: {
     width: '100%',
     textAlign: 'center',
@@ -60,6 +57,23 @@ export const StartGameScreen: React.FunctionComponent<Props> = ({
 }) => {
   const [value, setValue] = useState<string>('');
   const [chosenNumber, setChosenNumber] = useState<number | null>(null);
+  const [buttonWidth, setButtonWidth] = useState(
+    () => Dimensions.get('window').width / 4
+  );
+
+  // Listen orientation changes
+  useEffect(() => {
+    // Orientation changes handler
+    const handleChange = () => {
+      setButtonWidth(Dimensions.get('window').width / 4);
+    };
+
+    Dimensions.addEventListener('change', handleChange);
+
+    return () => {
+      Dimensions.removeEventListener('change', handleChange);
+    };
+  }, []);
 
   const handleInputChange = useCallback((v: string) => {
     const numberString = v.replace(/[^0-9]/g, '');
@@ -125,14 +139,14 @@ export const StartGameScreen: React.FunctionComponent<Props> = ({
                 />
 
                 <View style={styles.buttonsContainer}>
-                  <View style={styles.button}>
+                  <View style={{ width: buttonWidth }}>
                     <Button
                       title='Reset'
                       color={colors.primary}
                       onPress={handleReset}
                     />
                   </View>
-                  <View style={styles.button}>
+                  <View style={{ width: buttonWidth }}>
                     <Button
                       title='Confirm'
                       color={colors.accent}
